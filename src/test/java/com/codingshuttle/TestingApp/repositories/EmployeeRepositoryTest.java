@@ -1,7 +1,6 @@
 package com.codingshuttle.TestingApp.repositories;
 
 import com.codingshuttle.TestingApp.TestContainerConfiguration;
-import com.codingshuttle.TestingApp.dto.EmployeeDto;
 import com.codingshuttle.TestingApp.entities.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,18 +10,17 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
+import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Import(TestContainerConfiguration.class)
 @DataJpaTest
+@Import(TestContainerConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EmployeeRepositoryTest {
-
     @Autowired
     private EmployeeRepository employeeRepository;
-
     private Employee employee;
 
     @BeforeEach
@@ -31,18 +29,15 @@ class EmployeeRepositoryTest {
                 .id(1L)
                 .name("Anuj")
                 .email("anuj@gmail.com")
-                .salary(100L)
+                .salary(1000L)
                 .build();
     }
-
     @Test
-    void testFindByEmail_whenEmailIsPresent_thenReturnEmployee() {
+    void testFindByEmail_whenEmailIsPresent_thenReturnEmployeeList() {
 //        Arrange, Given
         employeeRepository.save(employee);
-
 //        Act, When
         List<Employee> employeeList = employeeRepository.findByEmail(employee.getEmail());
-
 //        Assert, Then
         assertThat(employeeList).isNotNull();
         assertThat(employeeList).isNotEmpty();
@@ -51,24 +46,13 @@ class EmployeeRepositoryTest {
 
     @Test
     void testFindByEmail_whenEmailIsNotFound_thenReturnEmptyEmployeeList() {
-//        Given
-        String email = "notPresent.123@gmail.com";
-//        When
+//    Given
+        String email = "not-present.123@gmail.com";
+//    When
         List<Employee> employeeList = employeeRepository.findByEmail(email);
-//        Then
+
+//    Then
         assertThat(employeeList).isNotNull();
         assertThat(employeeList).isEmpty();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
