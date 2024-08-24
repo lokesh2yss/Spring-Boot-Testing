@@ -7,7 +7,7 @@ phases:
   build:
     commands:
       - echo Building, Testing and packaging the application...
-      - mvn package -DskipTests
+      - mvn package
   post_build:
     commands:
       - echo Build, Testing and packaging completed.
